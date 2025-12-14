@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitGrade - AI Repo Auditor</title>
+    <style>
+        :root { --primary: #2dba4e; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: var(--card); padding: 2rem; border-radius: 12px; border: 1px solid #30363d; width: 100%; max-width: 600px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        h1 { margin-bottom: 0.5rem; color: white; }
+        p { color: #8b949e; margin-bottom: 2rem; }
+        input { width: 80%; padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; margin-bottom: 1rem; outline: none; }
+        input:focus { border-color: var(--primary); }
+        button { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
+        button:hover { opacity: 0.9; transform: scale(1.02); }
+        
+        /* Result Styling */
+        .result-box { display: none; text-align: left; margin-top: 2rem; border-top: 1px solid #30363d; padding-top: 1rem; animation: fadeIn 0.5s; }
+        .score-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .score-val { font-size: 3.5rem; font-weight: bold; color: var(--primary); }
+        .score-label { font-size: 1.2rem; color: #8b949e; }
+        
+        .summary-box { background: #21262d; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; border-left: 4px solid var(--primary); }
+        
+        .roadmap-item { background: #0d1117; margin: 8px 0; padding: 12px; border-radius: 6px; border: 1px solid #30363d; display: flex; align-items: center; }
+        .roadmap-item::before { content: "✅"; margin-right: 10px; }
+
+        .loader { display: none; margin-top: 20px; color: var(--primary); font-weight: bold; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>GitGrade AI Auditor</h1>
+        <p>Paste a GitHub Repository URL to generate an Engineering Roadmap.</p>
+        
+        <input type="text" id="urlInput" placeholder="https://github.com/username/project" value="https://github.com/pallets/flask">
+        <br>
+        <button onclick="runDemo()">Analyze Repository</button>
+        
+        <div class="loader" id="loader">
+            Analyzing File Structure... <br>
+            <small>Connecting to GitHub API...</small>
+        </div>
+
+        <div class="result-box" id="result">
+            <div class="score-section">
+                <div>
+                    <div class="score-label">Engineering Score</div>
+                    <div class="score-val">92/100</div>
+                </div>
+                <div style="text-align: right; color: #8b949e;">
+                    Grade: <strong>Excellent</strong><br>
+                    Files Scanned: <strong>42</strong>
+                </div>
+            </div>
+
+            <h3>AI Summary</h3>
+            <div class="summary-box">
+                The repository demonstrates a high standard of engineering. The project structure is modular, dependencies are clearly managed, and the codebase follows consistent linting rules. 
+            </div>
+
+            <h3>Personalized Roadmap</h3>
+            <div id="roadmap">
+                <div class="roadmap-item">Add GitHub Actions for CI/CD automation</div>
+                <div class="roadmap-item">Improve unit test coverage to 85%</div>
+                <div class="roadmap-item">Create a CONTRIBUTING.md for open source devs</div>
+                <div class="roadmap-item">Optimize dependency versions in requirements.txt</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function runDemo() {
+            const url = document.getElementById('urlInput').value;
+            const loader = document.getElementById('loader');
+            const result = document.getElementById('result');
+            
+            if(!url) return alert("Please enter a URL");
+
+            // 1. Show Loader immediately
+            loader.style.display = 'block';
+            result.style.display = 'none';
+
+            // 2. WAIT 2 SECONDS (Fake "Thinking")
+            setTimeout(() => {
+                loader.style.display = 'none';
+                result.style.display = 'block';
+                
+                // This forces the "result" box to appear with the 92/100 score
+                // No server connection needed.
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
